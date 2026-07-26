@@ -2,6 +2,7 @@ let currentScene = 0;
 let selectedCountry = "Mexico";
 let countries = [];
 
+
 const scenes = [
   {
     title: "Scene 1",
@@ -80,19 +81,7 @@ function updateScene() {
   }
 }
 
-d3.csv("data/data.csv").then(function (data) {
-    covidData = data;
-    countries = Array.from(
-        new Set(covidData.map(d => d.country))
-    ).sort((a, b) => {
-        if (a == "Mexico") return -1;
-        if (b == "Mexico") return 1;
-        return a.localeCompare(b);
-    });
 
-    createCountryDropdown();
-    updateScene();
-});
 
 d3.select("#next").on("click", function () {
   if (currentScene < scenes.length - 1) {
@@ -108,40 +97,65 @@ d3.select("#previous").on("click", function () {
   }
 });
 
+function drawAxis() {
 
-const chart = d3.select("#chart");
-const svg = d3.select("#chart svg");
+  const chart = d3.select("#chart");
+  const svg = d3.select("#chart svg");
 
-const margin = {
-    top: 30,
-    right: 70,
-    bottom: 50,
-    left: 70
-};
+  const margin = {
+      top: 30,
+      right: 70,
+      bottom: 50,
+      left: 70
+  };
 
-const width = chart.width - margin.left - margin.right;
-const height = chart.height - margin.top - margin.bottom;
+  const width = chart.width - margin.left - margin.right;
+  const height = chart.height - margin.top - margin.bottom;
 
-const g = svg.append("g").attr("transform", `translate(${margin.left}, ${margin.top})`);
+  const g = svg.append("g").attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-const parseDate = d3.timeParse("%Y-%m-%d");
+  const x = d3.scaleTime().domain(d3.extent(covidData, d => d.date)).range([0, width]);
 
-covidData.forEach(d => {
-  d.date = parseDate(d.date);
-  d.cases = d.new_cases_smoothed_per_million;
-  d.deaths = d.new_deaths_smoothed_per_million;
-  d.vaccinations = d.new_vaccinations_smoothed_per_million;
+  const yLeft = d3.scaleLinear().domain([0, d3.max(covidData, d=> Math.max(d.cases, d.vaccinations))]).nice().range([0, height]);
 
-})
+  const yRight = d3.scaleLinear().domain([0, d3.max(covidData, d=> d.deaths)]).nice().range([0, height]);
 
-const x = d3.scaleTime().domain(d3.extent(covidData, d => d.date)).range([0, width]);
+  g.append("g").attr("transform", `translate(0, ${height})`).call(d3.axisBottom(x));
 
-const yLeft = d3.scaleLinear().domain([0, d3.max(covidData, d=> Math.max(d.cases, d.vaccinations))]).nice().range([0, height]);
+  g.append("g").call(d3.axisLeft(yLeft));
 
-const yRight = d3.scaleLinear().domain([0, d3.max(covidData, d=> d.deaths)]).nice().range([0, height]);
+  g.append("g").attr("transform", `translate(${width}, 0)`).call(d3.axisRigth(yRight));
 
-g.append("g").attr("transform", `translate(0, ${height})`).call(d3.axisBottom(x));
+}
 
-g.append("g").call(d3.axisLeft(yLeft));
+async function init() {
+  covidData = await d3.csv("data/data.csv");
 
-g.append("g").attr("transform", `translate(${width}, 0)`).call(d3.axisRigth(yRight));
+  covidData.then(function (data) {
+    covidData = data;
+    countries = Array.from(
+        new Set(covidData.map(d => d.country))
+    ).sort((a, b) => {
+        if (a == "Mexico") return -1;
+        if (b == "Mexico") return 1;
+        return a.localeCompare(b);
+    });
+  });
+
+  const parseDate = d3.timeParse("%Y-%m-%d");
+
+  covidData.forEach(d => {
+    d.date = parseDate(d.date);
+    d.cases = d.new_cases_smoothed_per_million;
+    d.deaths = d.new_deaths_smoothed_per_million;
+    d.vaccinations = d.new_vaccinations_smoothed_per_million;
+
+  });
+
+  createCountryDropdown();
+  updateScene();
+  drawAxis();
+}
+
+
+init();
