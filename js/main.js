@@ -126,7 +126,7 @@ const g = svg.append("g").attr("transform", `translate(${margin.left}, ${margin.
 
 const parseDate = d3.timeParse("%Y-%m-%d");
 
-data.forEach(d => {
+covidData.forEach(d => {
   d.date = parseDate(d.date);
   d.cases = d.new_cases_smoothed_per_million;
   d.deaths = d.new_deaths_smoothed_per_million;
@@ -134,11 +134,11 @@ data.forEach(d => {
 
 })
 
-const x = d3.scaleTime().domain(d3.extent(data, d => d.date)).range([0, width]);
+const x = d3.scaleTime().domain(d3.extent(covidData, d => d.date)).range([0, width]);
 
-const yLeft = d3.scaleLinear().domain([0, d3.max(data, d=> Math.max(d.cases, d.vaccinations))]).nice().range([0, height]);
+const yLeft = d3.scaleLinear().domain([0, d3.max(covidData, d=> Math.max(d.cases, d.vaccinations))]).nice().range([0, height]);
 
-const yRight = d3.scaleLinear().domain([0, d3.max(data, d=> d.deaths)]).nice().range([0, height]);
+const yRight = d3.scaleLinear().domain([0, d3.max(covidData, d=> d.deaths)]).nice().range([0, height]);
 
 g.append("g").attr("transform", `translate(0, ${height})`).call(d3.axisBottom(x));
 
