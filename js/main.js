@@ -201,7 +201,38 @@ function drawLine(svg, g, data, field, color, legendText, legendX, legendY, ySca
       .text(legendText)
       .style("font-size", "12px")
       .attr("alignment-baseline", "middle")
-      .attr("transform", `translate(6, 1)`);
+        .attr("transform", `translate(6, 1)`);
+    
+    const tooltip = d3.select("#tooltip");
+
+    g.selectAll(`.point-${field}`)
+      .data(data)
+      .enter()
+      .append("circle")
+      .attr("class", `.point-${field}`)
+      .attr("cx", (d) => x(d.date))
+      .attr("cy", (d) => yScale(d[field]))
+      .attr("r", 4)
+      .attr("fill", color)
+      .attr("opacity", 0)
+      .on("mouseover", function (event, d) {
+        tooltip.style("opacity", 1).html(
+          `<strong>${data[d].country}</strong>
+                Date: ${d3.timeFormat("%m-%d-%Y")(data[d].date)}
+                ${legendText}: ${data[d][field]}`,
+        );
+
+        d3.select(this).attr("opacity", 1);
+      })
+      .on("mousemove", function (event) {
+        tooltip
+          .style("left", event.pageX + 10 + "px")
+          .style("top", event.pageY - 30 + "px");
+      })
+      .on("mouseout", function () {
+        tooltip.style("opacity", 0);
+        d3.select(this).attr("opacity", 0);
+      });
     
 }
 
@@ -220,7 +251,7 @@ function drawChart() {
       left: 70,
     };
 
-    
+
     const width = chart.offsetWidth - margin.left - margin.right;
     const height = chart.offsetHeight - margin.top - margin.bottom;
     
