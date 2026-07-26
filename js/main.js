@@ -129,9 +129,7 @@ function drawAxis() {
 }
 
 async function init() {
-  covidData = await d3.csv("data/data.csv");
-
-  covidData.then(function (data) {
+  covidData = await d3.csv("data/data.csv").then(function (data) {
     covidData = data;
     countries = Array.from(
         new Set(covidData.map(d => d.country))
