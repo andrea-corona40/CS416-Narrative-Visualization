@@ -422,8 +422,8 @@ async function init() {
 
    covidData.forEach((d) => {
     d.date = parseDate(d.date);
-    d.cases = parseInt(d.new_cases_smoothed_per_million) || 0;
-    d.vaccinations = parseInt(d.new_vaccinations_smoothed_per_million) || 0;
+    d.cases = parseFloat(d.new_cases_smoothed_per_million) || 0;
+    d.vaccinations = parseFloat(d.new_vaccinations_smoothed_per_million) || 0;
    });
     
     covidData = covidData.filter((d) => d.date <= maxDate);
