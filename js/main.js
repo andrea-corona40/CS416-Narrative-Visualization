@@ -24,7 +24,7 @@ const scenes = [
   {
     title: "Scene 4",
     text: "This is the fourth scene.",
-    endDate: new Date("2023-10-31"),
+    endDate: new Date("2023-12-31"),
   },
 ];
 
@@ -75,6 +75,7 @@ function createCountryDropdown() {
     
   select.on("change", function () {
       selectedCountry = this.value;
+      const svg = d3.select("#chart svg");
       updateScene();
     });
 }
@@ -101,8 +102,6 @@ function updateScene() {
 
 function getSceneData() {
     const data = getCountryData(selectedCountry);
-
-    if (currentScene == scenes.length - 1) { return data }
     
     return data.filter((d) => d.date <= scenes[currentScene].endDate);
 }
@@ -111,7 +110,6 @@ function getSceneData() {
 function drawAxis(data, width, height, margin) {
   const chart = d3.select("#chart").node();
   const svg = d3.select("#chart svg");
-  svg.selectAll("*").remove();
 
   const g = svg
     .append("g")
@@ -124,7 +122,7 @@ function drawAxis(data, width, height, margin) {
 
   const yLeft = d3
     .scaleLinear()
-    .domain([0, d3.max(data, (d) => Math.max(d.cases, d.deaths))])
+    .domain([0, d3.max(data, (d) => d.cases)])
     .nice()
     .range([height, 0]);
 
@@ -176,13 +174,15 @@ function drawLine(svg, g, data, field, color, legendText, legendX, legendY, ySca
       .defined((d) => d[field] !== null)
       .x((d) => x(d.date))
         .y((d) => yScale(d[field]));
-    
-    g.append("path")
+
+    const path = g.append("path")
       .datum(data)
       .attr("fill", "none")
       .attr("stroke", color)
       .attr("stroke-width", 2)
+      .attr("clip-path", "url(#chartClip)")
       .attr("d", line);
+
     
     const legend = svg
       .append("g")
@@ -207,6 +207,9 @@ function drawLine(svg, g, data, field, color, legendText, legendX, legendY, ySca
 
 function drawChart() {
     const svg = d3.select("#chart svg");
+
+    svg.selectAll("*").remove();
+    
     const data = getSceneData();
     const fullData = getCountryData(selectedCountry);
 
@@ -220,12 +223,21 @@ function drawChart() {
     const width = chart.offsetWidth - margin.left - margin.right;
     const height = chart.offsetHeight - margin.top - margin.bottom;
     
-
     const { g, x, yLeft, yRight } = drawAxis(fullData, width, height, margin);
+
+    const clip = g.append("clipPath").attr("id", "chartClip");
+
+    clip
+      .append("rect")
+      .attr("width", x(scenes[currentScene - 1]?.endDate) || 0)
+      .attr("height", height);
     
     drawLine(svg, g, data, "cases",  "#003f5c", "New Cases per Million", (width / 2) - 50, 15, yLeft, x);
 
     drawLine(svg, g, data, "vaccinations", "#ff7f0e", "New Vaccinations per Million", (width / 2) + 90, 15, yRight, x);
+
+    const revealDate = scenes[currentScene].endDate;
+    clip.select("rect").transition().duration(2000).attr("width", x(revealDate));
 
 }
 async function init() {
@@ -245,7 +257,6 @@ async function init() {
    covidData.forEach((d) => {
     d.date = parseDate(d.date);
     d.cases = parseInt(d.new_cases_smoothed_per_million) || 0;
-    d.deaths = parseInt(d.new_deaths_smoothed_per_million) || 0;
     d.vaccinations = parseInt(d.new_vaccinations_smoothed_per_million) || 0;
    });
     
