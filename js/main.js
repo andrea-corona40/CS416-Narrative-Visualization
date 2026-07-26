@@ -104,7 +104,7 @@ function updateScene() {
   } else {
     d3.select("#filter-country").style("display", "none");
     selectedCountry = "Mexico";
-    animateChart: true;
+    animateChart = true;
     
  }
     
@@ -437,14 +437,14 @@ init();
 d3.select("#next").on("click", function () {
   if (currentScene < scenes.length - 1) {
     currentScene++;
-    updateScene();
+      updateScene();
   }
 });
 
 d3.select("#previous").on("click", function () {
   if (currentScene > 0) {
       currentScene--;
-    updateScene();
+      updateScene();
   }
 });
 
