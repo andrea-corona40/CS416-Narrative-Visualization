@@ -86,7 +86,10 @@ function updateScene() {
 
   if (currentScene == scenes.length - 1) {
       d3.select("#filter-country").style("display", "flex");
-      d3.select("#country-select").property("value", "Mexico");
+      if (selectedCountry == "Mexico") {
+          d3.select("#country-select").property("value", "Mexico");
+      }
+      
   } else {
     d3.select("#filter-country").style("display", "none");
     selectedCountry = "Mexico";
