@@ -10,22 +10,31 @@ const scenes = [
   {
     title: "Scene 1",
     text: "This is the first scene.",
+    annotation: "Annotation 1",
     endDate: new Date("2020-10-31"),
   },
   {
     title: "Scene 2",
     text: "This is the second scene.",
+    annotation: "Annotation 2",
     endDate: new Date("2021-10-31"),
   },
   {
     title: "Scene 3",
     text: "This is the third scene.",
+    annotation: "Annotation 3",
     endDate: new Date("2022-10-31"),
   },
   {
     title: "Scene 4",
     text: "This is the fourth scene.",
     endDate: new Date("2023-12-31"),
+  },
+
+  {
+    title: "Scene 5",
+    text: "This is the fifth scene.",
+    endDate: new Date("2024-12-31"),
   },
 ];
 
@@ -207,6 +216,68 @@ function drawLine(svg, g, data, field, color, legendText, legendX, legendY, ySca
      
 }
 
+function addSceneAnnotation(g, data, scene, x, yLeft, yRight, width, height) {
+    
+    if (currentScene == scenes.length - 1) return;
+
+    const annotationDate = scene.endDate;
+
+    const bisectDate = d3.bisector((d) => d.date).left;
+
+    const index = bisectDate(data, annotationDate);
+
+    const d = data[index];
+
+    if (!d) return;
+
+    const xPos = x(d.date);
+    const casesY = yLeft(d.cases);
+    const vaccinationY = yRight(d.vaccinations);
+
+    const annotation = g.append("g").attr("class", "annotation");
+
+    annotation.append("line")
+        .attr("x1", xPos)
+        .attr("x2", xPos)
+        .attr("y1", 0)
+        .attr("y2", height)
+        .attr("stroke", "gray")
+        .attr("stroke-dasharray", "4,4");
+    
+    annotation
+        .append("circle")
+        .attr("cx", xPos)
+        .attr("cy", casesY)
+        .attr("r", 5)
+        .attr("fill", "#003f5c");
+    
+    annotation
+        .append("circle")
+        .attr("cx", xPos)
+        .attr("cy", vaccinationY)
+        .attr("r", 5)
+        .attr("fill", "#ff7f0e");
+    
+    
+    const textX = xPos + 50;
+    const textY = height / 2;
+
+    annotation
+      .append("line")
+      .attr("x1", xPos)
+      .attr("y1", height / 2 + 40)
+      .attr("x2", textX)
+      .attr("y2", textY)
+        .attr("stroke", "black");
+    
+    annotation
+        .append("text")
+        .attr("x", textX + 5)
+        .attr("y", textY)
+        .style("font-size", "12px")
+        .text(scene.annotation);
+}
+
 function drawChart() {
     const svg = d3.select("#chart svg");
 
@@ -246,7 +317,22 @@ function drawChart() {
           .select("rect")
           .transition()
           .duration(2000)
-          .attr("width", x(revealDate));
+            .attr("width", x(revealDate))
+            .on("end", () => {
+                addSceneAnnotation(
+          g,
+          fullData,
+          scenes[currentScene],
+          x,
+          yLeft,
+          yRight,
+          width,
+          height,
+        );
+              
+          })
+        
+        
     } else {
         clip.select("rect").attr("width", x(revealDate));
     }
