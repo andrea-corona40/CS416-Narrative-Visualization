@@ -99,7 +99,7 @@ d3.select("#previous").on("click", function () {
 
 function drawAxis() {
 
-  const chart = d3.select("#chart");
+  const chart = d3.select("#chart").node();
   const svg = d3.select("#chart svg");
 
   const margin = {
@@ -109,9 +109,11 @@ function drawAxis() {
       left: 70
   };
 
-  const width = chart.width - margin.left - margin.right;
-  const height = chart.height - margin.top - margin.bottom;
-
+  
+  const width = chart.offsetWidth - margin.left - margin.right;
+  const height = chart.offsetHeight - margin.top - margin.bottom;
+  console.log(chart);
+  console.log(chart.offsetWidth, chart.offsetHeight);
   const g = svg.append("g").attr("transform", `translate(${margin.left}, ${margin.top})`);
 
   const x = d3.scaleTime().domain(d3.extent(covidData, d => d.date)).range([0, width]);
@@ -124,12 +126,12 @@ function drawAxis() {
 
   g.append("g").call(d3.axisLeft(yLeft));
 
-  g.append("g").attr("transform", `translate(${width}, 0)`).call(d3.axisRigth(yRight));
+  g.append("g").attr("transform", `translate(${width}, 0)`).call(d3.axisRight(yRight));
 
 }
 
 async function init() {
-  covidData = await d3.csv("data/data.csv").then(function (data) {
+  await d3.csv("data/data.csv").then(function (data) {
     covidData = data;
     countries = Array.from(
         new Set(covidData.map(d => d.country))
@@ -139,7 +141,6 @@ async function init() {
         return a.localeCompare(b);
     });
   });
-
   const parseDate = d3.timeParse("%Y-%m-%d");
 
   covidData.forEach(d => {
@@ -149,6 +150,8 @@ async function init() {
     d.vaccinations = d.new_vaccinations_smoothed_per_million;
 
   });
+    
+  console.log(covidData);
 
   createCountryDropdown();
   updateScene();
