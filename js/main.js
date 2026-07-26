@@ -4,6 +4,7 @@ let countries = [];
 let covidData = [];
 let data = [];
 let maxDate = new Date("2023-12-31");
+let animateChart = true;
 
 const scenes = [
   {
@@ -75,7 +76,7 @@ function createCountryDropdown() {
     
   select.on("change", function () {
       selectedCountry = this.value;
-      const svg = d3.select("#chart svg");
+      animateChart = false;
       updateScene();
     });
 }
@@ -94,8 +95,9 @@ function updateScene() {
   } else {
     d3.select("#filter-country").style("display", "none");
     selectedCountry = "Mexico";
+    animateChart: true;
     
-    }
+ }
     
    drawChart();
 }
@@ -202,38 +204,7 @@ function drawLine(svg, g, data, field, color, legendText, legendX, legendY, ySca
       .style("font-size", "12px")
       .attr("alignment-baseline", "middle")
         .attr("transform", `translate(6, 1)`);
-    
-    const tooltip = d3.select("#tooltip");
-
-    g.selectAll(`.point-${field}`)
-      .data(data)
-      .enter()
-      .append("circle")
-      .attr("class", `.point-${field}`)
-      .attr("cx", (d) => x(d.date))
-      .attr("cy", (d) => yScale(d[field]))
-      .attr("r", 4)
-      .attr("fill", color)
-      .attr("opacity", 0)
-      .on("mouseover", function (event, d) {
-        tooltip.style("opacity", 1).html(
-          `<strong>${data[d].country}</strong>
-                Date: ${d3.timeFormat("%m-%d-%Y")(data[d].date)}
-                ${legendText}: ${data[d][field]}`,
-        );
-
-        d3.select(this).attr("opacity", 1);
-      })
-      .on("mousemove", function (event) {
-        tooltip
-          .style("left", event.pageX + 10 + "px")
-          .style("top", event.pageY - 30 + "px");
-      })
-      .on("mouseout", function () {
-        tooltip.style("opacity", 0);
-        d3.select(this).attr("opacity", 0);
-      });
-    
+     
 }
 
 function drawChart() {
@@ -269,7 +240,84 @@ function drawChart() {
     drawLine(svg, g, data, "vaccinations", "#ff7f0e", "New Vaccinations per Million", (width / 2) + 90, 15, yRight, x);
 
     const revealDate = scenes[currentScene].endDate;
-    clip.select("rect").transition().duration(2000).attr("width", x(revealDate));
+
+    if (animateChart && selectedCountry == "Mexico") {
+        clip
+          .select("rect")
+          .transition()
+          .duration(2000)
+          .attr("width", x(revealDate));
+    } else {
+        clip.select("rect").attr("width", x(revealDate));
+    }
+
+    
+
+    if (currentScene == scenes.length - 1) {
+
+        const casesPoint = g
+          .append("circle")
+          .attr("r", 5)
+          .attr("fill", "#003f5c")
+          .attr("display", "none");
+
+        const vaccinationPoint = g
+          .append("circle")
+          .attr("r", 5)
+          .attr("fill", "#ff7f0e")
+          .attr("display", "none");
+
+        const tooltip = d3.select("#tooltip");
+        const bisectDate = d3.bisector((d) => d.date).left;
+
+        const overlay = g
+          .append("rect")
+          .attr("width", width)
+          .attr("height", height)
+          .attr("fill", "none")
+          .attr("pointer-events", "all")
+          .on("mousemove", function () {
+            const mouseX = d3.mouse(this)[0];
+            const date = x.invert(mouseX);
+
+            const index = bisectDate(data, date);
+            const d = data[index];
+
+            if (!d) return;
+
+            tooltip
+              .style("opacity", 1)
+              .html(
+                `<strong>${d3.timeFormat("%Y-%m-%d")(d.date)}</strong><br>
+                  <span style="color:#003f5c">
+                    New Cases: ${d.cases.toFixed(2)}
+                </span><br>
+                <span style="color:#ff7f0e">
+                    New Vaccinations: ${d.vaccinations.toFixed(2)}
+                </span>`,
+              )
+              .style("left", d3.event.pageX + 10 + "px")
+              .style("top", d3.event.pageY - 30 + "px");
+
+            casesPoint
+              .attr("cx", x(d.date))
+              .attr("cy", yLeft(d.cases))
+              .style("display", "block");
+
+            vaccinationPoint
+              .attr("cx", x(d.date))
+              .attr("cy", yRight(d.vaccinations))
+              .style("display", "block");
+          })
+          .on("mouseout", function () {
+            tooltip.style("opacity", 0);
+            casesPoint.style("display", "none");
+            vaccinationPoint.style("display", "none");
+          });
+        
+
+    }
+    
 
 }
 async function init() {
@@ -309,7 +357,7 @@ d3.select("#next").on("click", function () {
 
 d3.select("#previous").on("click", function () {
   if (currentScene > 0) {
-    currentScene--;
+      currentScene--;
     updateScene();
   }
 });
