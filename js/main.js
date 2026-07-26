@@ -220,6 +220,7 @@ function drawChart() {
       left: 70,
     };
 
+    
     const width = chart.offsetWidth - margin.left - margin.right;
     const height = chart.offsetHeight - margin.top - margin.bottom;
     
