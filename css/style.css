@@ -219,7 +219,10 @@ h2 {
 
 #filter-country select:hover {
     background-color: rgba(76, 106, 146, 0.1);
+}
 
+#filter-country select:focus {
+    background-color: white;
 }
 
 
