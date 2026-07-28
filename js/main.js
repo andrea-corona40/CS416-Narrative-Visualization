@@ -3,7 +3,7 @@ let selectedCountry = "Mexico";
 let countries = [];
 let covidData = [];
 let data = [];
-let maxDate = new Date("2023-12-31");
+let maxDate = new Date("2023-06-31");
 let animateChart = true;
 
 const scenes = [
@@ -28,6 +28,7 @@ const scenes = [
   {
     title: "Scene 4",
     text: "This is the fourth scene.",
+    annotation: "Annotation 4",
     endDate: new Date("2023-12-31"),
   },
 
@@ -104,7 +105,7 @@ function updateScene() {
   } else {
     d3.select("#filter-country").style("display", "none");
     selectedCountry = "Mexico";
-    animateChart = true;
+    animateChart: true;
     
  }
     
@@ -131,38 +132,38 @@ function drawAxis(data, width, height, margin) {
     .domain(d3.extent(data, (d) => d.date))
     .range([0, width]);
 
-  const yLeft = d3
-    .scaleLinear()
-    .domain([0, d3.max(data, (d) => d.cases)])
-    .nice()
-    .range([height, 0]);
+    const yLeft = d3
+      .scaleLinear()
+      .domain([0, d3.max(data, (d) => d.cases)])
+      .nice()
+      .range([height, 0]);
 
-  const yRight = d3
+  /*const yRight = d3
     .scaleLinear()
     .domain([0, d3.max(data, (d) => d.vaccinations)])
     .nice()
-    .range([height, 0]);
+    .range([height, 0]);*/
 
-    g.append("g")
-        .attr("transform", `translate(0, ${height})`)
-        .call(d3.axisBottom(x))
-    
-    g.append("text")
-      .attr("x", width / 2)
-      .attr("y", height + margin.top)
-      .style("font-size", "12px")
-      .text("Date");
+  g.append("g")
+    .attr("transform", `translate(0, ${height})`)
+    .call(d3.axisBottom(x));
 
-    g.append("g").call(d3.axisLeft(yLeft));
-    
-    g.append("text")
-      .attr("transform", "rotate(-90)")
-      .attr("x", - height/2 - margin.top)
-      .attr("y", -45)
-      .style("font-size", "12px")
-      .text("Cases per Million");
-    
+  g.append("text")
+    .attr("x", width / 2)
+    .attr("y", height + margin.top)
+    .style("font-size", "12px")
+    .text("Date");
 
+  g.append("g").call(d3.axisLeft(yLeft));
+
+  g.append("text")
+    .attr("transform", "rotate(-90)")
+    .attr("x", -height / 2 - margin.top)
+    .attr("y", -45)
+    .style("font-size", "12px")
+    .text("Cases per Million");
+
+  /*
     g.append("g")
       .attr("transform", `translate(${width}, 0)`)
        .call(d3.axisRight(yRight));
@@ -173,9 +174,9 @@ function drawAxis(data, width, height, margin) {
       .attr("x", -height / 2 - margin.top)
       .attr("y", width + 55)
       .style("font-size", "12px")
-      .text("Vaccinations per Million");
+      .text("Vaccinations per Million");*/
 
-  return { g, x, yLeft, yRight };
+  return { g, x, yLeft }; //yRight
 }
 
 function drawLine(svg, g, data, field, color, legendText, legendX, legendY, yScale, x) {
@@ -215,196 +216,245 @@ function drawLine(svg, g, data, field, color, legendText, legendX, legendY, ySca
         .attr("transform", `translate(6, 1)`);
      
 }
+//yRight
+function addSceneAnnotation(g, data, scene, x, yLeft, width, height) {
+  if (currentScene == scenes.length - 1) return;
 
-function addSceneAnnotation(g, data, scene, x, yLeft, yRight, width, height) {
-    
-    if (currentScene == scenes.length - 1) return;
+  const annotationDate = scene.endDate;
 
-    const annotationDate = scene.endDate;
+  const bisectDate = d3.bisector((d) => d.date).left;
 
-    const bisectDate = d3.bisector((d) => d.date).left;
+  const index = bisectDate(data, annotationDate);
 
-    const index = bisectDate(data, annotationDate);
+  const d = data[index];
 
-    const d = data[index];
+  if (!d) return;
 
-    if (!d) return;
+  const xPos = x(d.date);
+  const casesY = yLeft(d.cases);
+  //const deathsY = yLeft(d.deaths);
+  //const vaccinationY = yRight(d.vaccinations);
 
-    const xPos = x(d.date);
-    const casesY = yLeft(d.cases);
-    const vaccinationY = yRight(d.vaccinations);
+  const annotation = g.append("g").attr("class", "annotation");
 
-    const annotation = g.append("g").attr("class", "annotation");
+  annotation
+    .append("line")
+    .attr("x1", xPos)
+    .attr("x2", xPos)
+    .attr("y1", 0)
+    .attr("y2", height)
+    .attr("stroke", "gray")
+    .attr("stroke-dasharray", "4,4");
 
-    annotation.append("line")
-        .attr("x1", xPos)
-        .attr("x2", xPos)
-        .attr("y1", 0)
-        .attr("y2", height)
-        .attr("stroke", "gray")
-        .attr("stroke-dasharray", "4,4");
-    
+  annotation
+    .append("circle")
+    .attr("cx", xPos)
+    .attr("cy", casesY)
+    .attr("r", 5)
+    .attr("fill", "#003f5c");
+
+  /*
     annotation
-        .append("circle")
-        .attr("cx", xPos)
-        .attr("cy", casesY)
-        .attr("r", 5)
-        .attr("fill", "#003f5c");
-    
+      .append("circle")
+      .attr("cx", xPos)
+      .attr("cy", deathsY)
+      .attr("r", 5)
+        .attr("fill", "#8B0000");
     annotation
         .append("circle")
         .attr("cx", xPos)
         .attr("cy", vaccinationY)
         .attr("r", 5)
-        .attr("fill", "#ff7f0e");
-    
-    
-    const textX = xPos + 50;
-    const textY = height / 2;
+        .attr("fill", "#ff7f0e");*/
 
-    annotation
-      .append("line")
-      .attr("x1", xPos)
-      .attr("y1", height / 2 + 40)
-      .attr("x2", textX)
-      .attr("y2", textY)
-        .attr("stroke", "black");
+  const posX = xPos + 100;
+  const posY = height / 2;
+  const rectWidth = 100;
+  const rectHeight = 50;
+
+  annotation
+    .append("line")
+    .attr("x1", xPos)
+    .attr("y1", height / 2 + 40)
+    .attr("x2", posX)
+    .attr("y2", posY)
+    .attr("stroke", "black");
+
+  annotation
+    .append("rect")
+    .attr("class", "annotation-box")
+    .attr("x", posX)
+    .attr("y", posY - 20)
+    .attr("width", rectWidth)
+    .attr("height", rectHeight);
     
-    annotation
-        .append("text")
-        .attr("x", textX + 5)
-        .attr("y", textY)
-        .style("font-size", "12px")
-        .text(scene.annotation);
+ annotation
+   .append("polygon")
+   .attr("class", "annotation-bookmark")
+   .attr(
+     "points",
+     `
+        ${posX + rectWidth - 25},${posY - 20}
+        ${posX + rectWidth},${posY - 20}
+        ${posX + rectWidth},${posY - 20 + 25}
+    `,
+   );
+
+  annotation
+    .append("text")
+    .attr("class", "annotation-text")
+    .attr("x", posX + 10)
+    .attr("y", posY - 20 + rectHeight / 2)
+    .style("font-size", "12px")
+    .text(scene.annotation);
 }
 
 function drawChart() {
-    const svg = d3.select("#chart svg");
+  const svg = d3.select("#chart svg");
 
-    svg.selectAll("*").remove();
+  svg.selectAll("*").remove();
+
+  const data = getSceneData();
+  const fullData = getCountryData(selectedCountry);
+
+  const margin = {
+    top: 30,
+    right: 70,
+    bottom: 50,
+    left: 70,
+  };
+
+  const width = chart.offsetWidth - margin.left - margin.right;
+  const height = chart.offsetHeight - margin.top - margin.bottom;
+
+  const { g, x, yLeft } = drawAxis(fullData, width, height, margin); // yRight
+
+  const clip = g.append("clipPath").attr("id", "chartClip");
+
+  clip
+    .append("rect")
+    .attr("width", x(scenes[currentScene - 1]?.endDate) || 0)
+    .attr("height", height);
+
+  drawLine(
+    svg,
+    g,
+    data,
+    "cases",
+    "#003f5c",
+    "New Cases per Million",
+    width / 2,
+    15,
+    yLeft,
+    x,
+    );
     
-    const data = getSceneData();
-    const fullData = getCountryData(selectedCountry);
+  //drawLine(svg, g, data, "deaths", "#8b0000", "New Deaths per Million", width / 2 + 90, 15, yLeft, x);
 
-    const margin = {
-      top: 30,
-      right: 70,
-      bottom: 50,
-      left: 70,
-    };
+  //drawLine(svg, g, data, "vaccinations", "#ff7f0e", "New Vaccinations per Million", (width / 2) + 90, 15, yRight, x);
 
+  const revealDate = scenes[currentScene].endDate;
 
-    const width = chart.offsetWidth - margin.left - margin.right;
-    const height = chart.offsetHeight - margin.top - margin.bottom;
-    
-    const { g, x, yLeft, yRight } = drawAxis(fullData, width, height, margin);
-
-    const clip = g.append("clipPath").attr("id", "chartClip");
-
+  if (animateChart && selectedCountry == "Mexico") {
     clip
-      .append("rect")
-      .attr("width", x(scenes[currentScene - 1]?.endDate) || 0)
-      .attr("height", height);
-    
-    drawLine(svg, g, data, "cases",  "#003f5c", "New Cases per Million", (width / 2) - 50, 15, yLeft, x);
-
-    drawLine(svg, g, data, "vaccinations", "#ff7f0e", "New Vaccinations per Million", (width / 2) + 90, 15, yRight, x);
-
-    const revealDate = scenes[currentScene].endDate;
-
-    if (animateChart && selectedCountry == "Mexico") {
-        clip
-          .select("rect")
-          .transition()
-          .duration(2000)
-            .attr("width", x(revealDate))
-            .on("end", () => {
-                addSceneAnnotation(
+      .select("rect")
+      .transition()
+      .duration(2000)
+      .attr("width", x(revealDate))
+      .on("end", () => {
+        addSceneAnnotation(
           g,
           fullData,
           scenes[currentScene],
           x,
           yLeft,
-          yRight,
+          //yRight,
           width,
           height,
         );
-              
-          })
-        
-        
-    } else {
-        clip.select("rect").attr("width", x(revealDate));
-    }
+      });
+  } else {
+    clip.select("rect").attr("width", x(revealDate));
+  }
 
+  if (currentScene == scenes.length - 1) {
+    const casesPoint = g
+      .append("circle")
+      .attr("r", 5)
+      .attr("fill", "#003f5c")
+      .attr("display", "none");
+
+    /*
+    const deathsPoint = g
+      .append("circle")
+      .attr("r", 5)
+      .attr("fill", "#8b0000")
+      .attr("display", "none");
     
-
-    if (currentScene == scenes.length - 1) {
-
-        const casesPoint = g
-          .append("circle")
-          .attr("r", 5)
-          .attr("fill", "#003f5c")
-          .attr("display", "none");
-
-        const vaccinationPoint = g
+    const vaccinationPoint = g
           .append("circle")
           .attr("r", 5)
           .attr("fill", "#ff7f0e")
-          .attr("display", "none");
+          .attr("display", "none");*/
 
-        const tooltip = d3.select("#tooltip");
-        const bisectDate = d3.bisector((d) => d.date).left;
+    const tooltip = d3.select("#tooltip");
+    const bisectDate = d3.bisector((d) => d.date).left;
 
-        const overlay = g
-          .append("rect")
-          .attr("width", width)
-          .attr("height", height)
-          .attr("fill", "none")
-          .attr("pointer-events", "all")
-          .on("mousemove", function () {
-            const mouseX = d3.mouse(this)[0];
-            const date = x.invert(mouseX);
+    const overlay = g
+      .append("rect")
+      .attr("width", width)
+      .attr("height", height)
+      .attr("fill", "none")
+      .attr("pointer-events", "all")
+      .on("mousemove", function () {
+        const mouseX = d3.mouse(this)[0];
+        const date = x.invert(mouseX);
 
-            const index = bisectDate(data, date);
-            const d = data[index];
+        const index = bisectDate(data, date);
+        const d = data[index];
 
-            if (!d) return;
+        if (!d) return;
 
-            tooltip
-              .style("opacity", 1)
-              .html(
-                `<strong>${d3.timeFormat("%Y-%m-%d")(d.date)}</strong><br>
+        tooltip
+          .style("opacity", 1)
+          .html(
+            `<strong>${d3.timeFormat("%Y-%m-%d")(d.date)}</strong><br>
                   <span style="color:#003f5c">
-                    New Cases: ${d.cases.toFixed(2)}
+                    New Cases / 1M: ${d.cases.toFixed(2)}
+                </span><br>
+                <span style="color:#8B0000">
+                    New Deaths / 1M: ${d.deaths.toFixed(2)}
                 </span><br>
                 <span style="color:#ff7f0e">
-                    New Vaccinations: ${d.vaccinations.toFixed(2)}
+                    New Vaccinations / 1M: ${d.vaccinations.toFixed(2)}
                 </span>`,
-              )
-              .style("left", d3.event.pageX + 10 + "px")
-              .style("top", d3.event.pageY - 30 + "px");
+          )
+          .style("left", d3.event.pageX + 10 + "px")
+          .style("top", d3.event.pageY - 30 + "px");
 
-            casesPoint
-              .attr("cx", x(d.date))
-              .attr("cy", yLeft(d.cases))
-              .style("display", "block");
+        casesPoint
+          .attr("cx", x(d.date))
+          .attr("cy", yLeft(d.cases))
+          .style("display", "block");
 
-            vaccinationPoint
+        /*
+        deathsPoint
+          .attr("cx", x(d.date))
+          .attr("cy", yLeft(d.deaths))
+          .style("display", "block");
+
+        vaccinationPoint
               .attr("cx", x(d.date))
               .attr("cy", yRight(d.vaccinations))
-              .style("display", "block");
-          })
-          .on("mouseout", function () {
-            tooltip.style("opacity", 0);
-            casesPoint.style("display", "none");
-            vaccinationPoint.style("display", "none");
-          });
-        
-
-    }
-    
-
+              .style("display", "block");*/
+      })
+      .on("mouseout", function () {
+        tooltip.style("opacity", 0);
+        casesPoint.style("display", "none");
+        //deathsPoint.style("display", "none");
+        //vaccinationPoint.style("display", "none");
+      });
+  }
 }
 async function init() {
   await d3.csv("data/data.csv").then(function (data) {
@@ -422,8 +472,9 @@ async function init() {
 
    covidData.forEach((d) => {
     d.date = parseDate(d.date);
-    d.cases = parseFloat(d.new_cases_smoothed_per_million) || 0;
-    d.vaccinations = parseFloat(d.new_vaccinations_smoothed_per_million) || 0;
+    d.cases = parseInt(d.new_cases_smoothed_per_million) || 0;
+    d.deaths = parseInt(d.new_deaths_smoothed_per_million) || 0;
+    d.vaccinations = parseInt(d.new_vaccinations_smoothed_per_million) || 0;
    });
     
     covidData = covidData.filter((d) => d.date <= maxDate);
@@ -437,14 +488,15 @@ init();
 d3.select("#next").on("click", function () {
   if (currentScene < scenes.length - 1) {
     currentScene++;
-      updateScene();
+    updateScene();
+    
   }
 });
 
 d3.select("#previous").on("click", function () {
   if (currentScene > 0) {
       currentScene--;
-      updateScene();
+    updateScene();
   }
 });
 
