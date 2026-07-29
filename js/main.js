@@ -3,39 +3,127 @@ let selectedCountry = "Mexico";
 let countries = [];
 let covidData = [];
 let data = [];
-let maxDate = new Date("2023-06-31");
+let maxDate = new Date("2023-12-31");
 let animateChart = true;
 
 const scenes = [
   {
     title: "Scene 1",
-    text: "This is the first scene.",
-    annotation: "Annotation 1",
-    endDate: new Date("2020-10-31"),
+    text: "Mexico confirma primeros casos del país el 28 de febrero",
+    annotations: [
+      {
+        date: new Date("2020-07-15"),
+        text: "Primera ola alcanza su primer pico",
+        posX: 0,
+        posY: 200,
+        rectHeight: 75,
+        rectWidth: 100,
+      },
+
+      {
+        date: new Date("2020-12-24"),
+        text: "Inicio de la vacunación en México",
+        posX: 0,
+        posY: 200,
+        rectHeight: 75,
+        rectWidth: 100,
+      },
+    ],
+    endDate: new Date("2020-12-31"),
   },
   {
     title: "Scene 2",
     text: "This is the second scene.",
-    annotation: "Annotation 2",
-    endDate: new Date("2021-10-31"),
+    annotations: [
+      {
+        date: new Date("2021-01-15"),
+        text: "Segunda Ola de COVID",
+        posX: 0,
+        posY: 250,
+        rectHeight: 50,
+        rectWidth: 100,
+      },
+      {
+        date: new Date("2021-02-21"),
+        text: "Comienza vacunación masiva en adultos mayores",
+        posX: 50,
+        posY: 100,
+        rectHeight: 100,
+        rectWidth: 90,
+      },
+      {
+        date: new Date("2021-08-15"),
+        text: "Tercera ola impulsada por la variante Delta",
+        posX: 0,
+        posY: 200,
+        rectHeight: 90,
+        rectWidth: 100,
+      },
+    ],
+    endDate: new Date("2021-12-31"),
   },
   {
     title: "Scene 3",
     text: "This is the third scene.",
-    annotation: "Annotation 3",
-    endDate: new Date("2022-10-31"),
+    annotations: [
+      {
+        date: new Date("2022-01-21"),
+        text: "Cuarta ola asociada a omnicron",
+        posX: -100,
+        posY: 0,
+        rectHeight: 70,
+        rectWidth: 100,
+      },
+
+      {
+        date: new Date("2022-04-15"),
+        text: "Over 200M de dosis aplicadas",
+        posX: 0,
+        posY: 200,
+        rectHeight: 70,
+        rectWidth: 90,
+      },
+
+      {
+        date: new Date("2022-07-15"),
+        text: "Quinta ola con variantes de Omicron",
+        posX: 0,
+        posY: 150,
+        rectHeight: 70,
+        rectWidth: 100,
+      },
+    ],
+    endDate: new Date("2022-12-31"),
   },
   {
     title: "Scene 4",
     text: "This is the fourth scene.",
-    annotation: "Annotation 4",
+    annotations: [
+      {
+        date: new Date("2023-01-15"),
+        text: "Sexta ola de COVID",
+        posX: 0,
+        posY: 200,
+        rectHeight: 50,
+        rectWidth: 75,
+      },
+
+      {
+        date: new Date("2023-05-09"),
+        text: "Fin de la emergencia sanitaria por COVID-19",
+        posX: 0,
+        posY: 150,
+        rectHeight: 90,
+        rectWidth: 100,
+      },
+    ],
     endDate: new Date("2023-12-31"),
   },
 
   {
     title: "Scene 5",
     text: "This is the fifth scene.",
-    endDate: new Date("2024-12-31"),
+    endDate: new Date("2023-12-31"),
   },
 ];
 
@@ -217,10 +305,10 @@ function drawLine(svg, g, data, field, color, legendText, legendX, legendY, ySca
      
 }
 //yRight
-function addSceneAnnotation(g, data, scene, x, yLeft, width, height) {
+function addSceneAnnotation(g, data, annotation, x, yLeft, width, height) {
   if (currentScene == scenes.length - 1) return;
 
-  const annotationDate = scene.endDate;
+  const annotationDate = annotation.date;
 
   const bisectDate = d3.bisector((d) => d.date).left;
 
@@ -235,18 +323,9 @@ function addSceneAnnotation(g, data, scene, x, yLeft, width, height) {
   //const deathsY = yLeft(d.deaths);
   //const vaccinationY = yRight(d.vaccinations);
 
-  const annotation = g.append("g").attr("class", "annotation");
+  const g_annotation = g.append("g").attr("class", "annotation");
 
-  annotation
-    .append("line")
-    .attr("x1", xPos)
-    .attr("x2", xPos)
-    .attr("y1", 0)
-    .attr("y2", height)
-    .attr("stroke", "gray")
-    .attr("stroke-dasharray", "4,4");
-
-  annotation
+  g_annotation
     .append("circle")
     .attr("cx", xPos)
     .attr("cy", casesY)
@@ -254,59 +333,76 @@ function addSceneAnnotation(g, data, scene, x, yLeft, width, height) {
     .attr("fill", "#003f5c");
 
   /*
-    annotation
+    g_annotation
       .append("circle")
       .attr("cx", xPos)
       .attr("cy", deathsY)
       .attr("r", 5)
         .attr("fill", "#8B0000");
-    annotation
+    g_annotation
         .append("circle")
         .attr("cx", xPos)
         .attr("cy", vaccinationY)
         .attr("r", 5)
         .attr("fill", "#ff7f0e");*/
 
-  const posX = xPos + 100;
-  const posY = height / 2;
-  const rectWidth = 100;
-  const rectHeight = 50;
+  const posX = xPos + annotation.posX;
+  const posY = casesY - annotation.posY;
+  const rectWidth = annotation.rectWidth;
+  const rectHeight = annotation.rectHeight;
 
-  annotation
+  g_annotation
     .append("line")
     .attr("x1", xPos)
-    .attr("y1", height / 2 + 40)
+    .attr("y1", casesY)
     .attr("x2", posX)
     .attr("y2", posY)
     .attr("stroke", "black");
+  
+  const relposX = posX - rectWidth / 2;
 
-  annotation
+  g_annotation
     .append("rect")
     .attr("class", "annotation-box")
-    .attr("x", posX)
+    .attr("x", relposX)
     .attr("y", posY - 20)
     .attr("width", rectWidth)
     .attr("height", rectHeight);
-    
- annotation
-   .append("polygon")
-   .attr("class", "annotation-bookmark")
-   .attr(
-     "points",
-     `
-        ${posX + rectWidth - 25},${posY - 20}
-        ${posX + rectWidth},${posY - 20}
-        ${posX + rectWidth},${posY - 20 + 25}
-    `,
-   );
 
-  annotation
+  g_annotation
+    .append("polygon")
+    .attr("class", "annotation-bookmark")
+    .attr(
+      "points",
+      `
+        ${relposX + rectWidth - 25},${posY - 20}
+        ${relposX + rectWidth},${posY - 20}
+        ${relposX + rectWidth},${posY - 20 + 25}
+    `,
+    );
+
+  /*
+  g_annotation
     .append("text")
     .attr("class", "annotation-text")
-    .attr("x", posX + 10)
+    .attr("x", relposX + 10)
     .attr("y", posY - 20 + rectHeight / 2)
     .style("font-size", "12px")
-    .text(scene.annotation);
+    .text(annotation.text);*/
+  
+  g_annotation
+    .append("foreignObject")
+    .attr("x", relposX + 10)
+    .attr("y", posY - 20 + 10)
+    .attr("width", rectWidth - 20)
+    .attr("height", rectHeight - 20)
+    .append("xhtml:div")
+    .style("font-size", "12px")
+    .style("line-height", "15px")
+    .style("word-wrap", "break-word")
+    .style("overflow-wrap", "break-word")
+    .style("text-align", "center")
+    .text(annotation.text);
 }
 
 function drawChart() {
@@ -362,16 +458,10 @@ function drawChart() {
       .duration(2000)
       .attr("width", x(revealDate))
       .on("end", () => {
-        addSceneAnnotation(
-          g,
-          fullData,
-          scenes[currentScene],
-          x,
-          yLeft,
-          //yRight,
-          width,
-          height,
-        );
+        scenes[currentScene].annotations.forEach((annotation) => {
+          addSceneAnnotation(g, fullData, annotation, x, yLeft, width, height);
+        });
+        
       });
   } else {
     clip.select("rect").attr("width", x(revealDate));
@@ -426,7 +516,7 @@ function drawChart() {
                     New Deaths / 1M: ${d.deaths.toFixed(2)}
                 </span><br>
                 <span style="color:#ff7f0e">
-                    New Vaccinations / 1M: ${d.vaccinations.toFixed(2)}
+                    % Vaccination: ${d.vaccinations.toFixed(2)}%
                 </span>`,
           )
           .style("left", d3.event.pageX + 10 + "px")
@@ -474,7 +564,7 @@ async function init() {
     d.date = parseDate(d.date);
     d.cases = parseInt(d.new_cases_smoothed_per_million) || 0;
     d.deaths = parseInt(d.new_deaths_smoothed_per_million) || 0;
-    d.vaccinations = parseInt(d.new_vaccinations_smoothed_per_million) || 0;
+    d.vaccinations = parseInt(d.people_vaccinated_per_hundred) || 0;
    });
     
     covidData = covidData.filter((d) => d.date <= maxDate);
