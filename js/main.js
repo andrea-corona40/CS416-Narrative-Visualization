@@ -7,6 +7,7 @@ let maxDate = new Date("2023-12-31");
 let animateChart = true;
 let displayFilter = false;
 let displayTooltips = false;
+let displayYear = "2020";
 
 const scenes = [
   {
@@ -205,6 +206,8 @@ function updateScene() {
   {
   d3.select("#filter-country").style("display", "none");
   }
+
+  year = scenes[currentScene].year;
     
    drawChart();
 }
@@ -212,7 +215,7 @@ function updateScene() {
 function getSceneData() {
     const data = getCountryData(selectedCountry);
     
-    return data.filter((d) => d.date <= new Date(`${scenes[currentScene].year}-12-31`));
+    return data.filter((d) => d.date <= new Date(`${displayYear}-12-31`));
 }
 
 
@@ -458,7 +461,7 @@ function drawChart() {
 
   //drawLine(svg, g, data, "vaccinations", "#ff7f0e", "New Vaccinations per Million", (width / 2) + 90, 15, yRight, x);
 
-  const revealDate = new Date(`${scenes[currentScene].year}-12-31`);
+  const revealDate = new Date(`${displayYear}-12-31`);
 
   if (animateChart && selectedCountry == "Mexico") {
     clip
