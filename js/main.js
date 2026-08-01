@@ -5,6 +5,8 @@ let covidData = [];
 let data = [];
 let maxDate = new Date("2023-12-31");
 let animateChart = true;
+let displayFilter = false;
+let displayTooltips = false;
 
 const scenes = [
   {
@@ -185,17 +187,25 @@ function updateScene() {
   updateButtons();
 
   if (currentScene == scenes.length - 1) {
-      d3.select("#filter-country").style("display", "flex");
+      displayFilter = true;
+      displayTooltips = true;
       if (selectedCountry == "Mexico") {
           d3.select("#country-select").property("value", "Mexico");
       }
       
   } else {
-    d3.select("#filter-country").style("display", "none");
+    displayFilter = false;
+    displayTooltips = false;
     selectedCountry = "Mexico";
-    animateChart: true;
+    animateChart = true;
     
  }
+  if (displayFilter){
+  d3.select("#filter-country").style("display", "flex");
+  } else
+  {
+  d3.select("#filter-country").style("display", "none");
+  }
     
    drawChart();
 }
@@ -467,7 +477,7 @@ function drawChart() {
     clip.select("rect").attr("width", x(revealDate));
   }
 
-  if (currentScene == scenes.length - 1) {
+  if (displayTooltips) {
     const casesPoint = g
       .append("circle")
       .attr("r", 5)
