@@ -12,6 +12,7 @@ const scenes = [
   {
     title: "Scene 1",
     text: "Mexico confirma primeros casos del país el 28 de febrero",
+    year: "2020",
     annotations: [
       {
         date: new Date("2020-07-15"),
@@ -31,11 +32,11 @@ const scenes = [
         rectWidth: 100,
       },
     ],
-    endDate: new Date("2020-12-31"),
   },
   {
     title: "Scene 2",
     text: "This is the second scene.",
+    year: "2021",
     annotations: [
       {
         date: new Date("2021-01-15"),
@@ -62,11 +63,11 @@ const scenes = [
         rectWidth: 100,
       },
     ],
-    endDate: new Date("2021-12-31"),
   },
   {
     title: "Scene 3",
     text: "This is the third scene.",
+    year: "2022",
     annotations: [
       {
         date: new Date("2022-01-21"),
@@ -95,11 +96,11 @@ const scenes = [
         rectWidth: 100,
       },
     ],
-    endDate: new Date("2022-12-31"),
   },
   {
     title: "Scene 4",
     text: "This is the fourth scene.",
+    year: "2021",
     annotations: [
       {
         date: new Date("2023-01-15"),
@@ -119,13 +120,11 @@ const scenes = [
         rectWidth: 100,
       },
     ],
-    endDate: new Date("2023-12-31"),
   },
 
   {
     title: "Scene 5",
     text: "This is the fifth scene.",
-    endDate: new Date("2023-12-31"),
   },
 ];
 
@@ -213,7 +212,7 @@ function updateScene() {
 function getSceneData() {
     const data = getCountryData(selectedCountry);
     
-    return data.filter((d) => d.date <= scenes[currentScene].endDate);
+    return data.filter((d) => d.date <= new Date(`${scenes[currentScene].year}-12-31`));
 }
 
 
@@ -439,7 +438,7 @@ function drawChart() {
 
   clip
     .append("rect")
-    .attr("width", x(scenes[currentScene - 1]?.endDate) || 0)
+    .attr("width", x(new Date(`${scenes[currentScene - 1].year}-12-31`)) || 0)
     .attr("height", height);
 
   drawLine(
@@ -459,7 +458,7 @@ function drawChart() {
 
   //drawLine(svg, g, data, "vaccinations", "#ff7f0e", "New Vaccinations per Million", (width / 2) + 90, 15, yRight, x);
 
-  const revealDate = scenes[currentScene].endDate;
+  const revealDate = new Date(`${scenes[currentScene].year}-12-31`);
 
   if (animateChart && selectedCountry == "Mexico") {
     clip
