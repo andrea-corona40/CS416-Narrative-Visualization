@@ -32,28 +32,36 @@
   },
   {
     "title": "Successive Waves and Mass Vaccination",
-    "text": "This is the second scene.",
+    "text": "Throughout 2021, Mexico experienced multiple waves of infections, including a large surge at the beginning of the year followed by another wave driven by the Delta variant. At the same time, the vaccination campaign expanded rapidly, becoming one of the country’s main public health strategies.",
     "year": "2021",
     "annotations": [
       {
         "date": "2021-01-15",
-        "text": "Segunda Ola de COVID",
+        "text": "Second wave peaks",
         "posX": 0,
         "posY": 250,
         "rectHeight": 50,
         "rectWidth": 100
       },
       {
-        "date": "2021-02-21",
-        "text": "Comienza vacunación masiva en adultos mayores",
+        "date": "2021-02-17",
+        "text": "Mexico reaches one million doses of vaccines administered",
         "posX": 50,
         "posY": 100,
         "rectHeight": 100,
         "rectWidth": 90
       },
       {
+        "date": "2021-05-02",
+        "text": "First positive sample of delta variant in the country",
+        "posX": 0,
+        "posY": 200,
+        "rectHeight": 90,
+        "rectWidth": 100
+      },
+      {
         "date": "2021-08-15",
-        "text": "Tercera ola impulsada por la variante Delta",
+        "text": "Third wave driven by the Delta variant",
         "posX": 0,
         "posY": 200,
         "rectHeight": 90,
