@@ -41,7 +41,7 @@
         "text": "January 15 - Second wave peaks",
         "posX": 0,
         "posY": 250,
-        "rectHeight": 75,
+        "rectHeight": 70,
         "rectWidth": 100
       },
       {
@@ -57,7 +57,7 @@
         "text": "May 2 - First confirmed Delta variant case",
         "posX": 0,
         "posY": 125,
-        "rectHeight": 90,
+        "rectHeight": 85,
         "rectWidth": 100
       },
       {
@@ -98,7 +98,7 @@
         "text": "July 15 - Fifth wave associated with Omicron subvariants",
         "posX": 0,
         "posY": 150,
-        "rectHeight": 100,
+        "rectHeight": 90,
         "rectWidth": 110
       }
     ]
