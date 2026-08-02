@@ -439,11 +439,14 @@ function drawChart() {
 
   const clip = g.append("clipPath").attr("id", "chartClip");
 
-  console.log(scenes[currentScene - 1]);
+  const previousEnd =
+  currentScene > 0
+    ? new Date(`${scenes[currentScene - 1].year}-12-31`)
+    : new Date("2020-01-01");
 
   clip
     .append("rect")
-    .attr("width", x(new Date(`${scenes[currentScene - 1].year}-12-31`)) || 0)
+    .attr("width", x(previousEnd) || 0)
     .attr("height", height);
 
   drawLine(
