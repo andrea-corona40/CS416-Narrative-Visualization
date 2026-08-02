@@ -263,3 +263,28 @@ h2 {
     font-family: Georgia, "Times New Roman", serif;
     font-size: 14px;
 }
+/** Resources **/
+#resources {
+    margin-top: 20px;
+    padding: 12px 20px;
+    border-top: 1px solid #d9d9d9;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+}
+
+#resources-title {
+    font-weight: bold;
+}
+
+#resources a {
+    color: #4c6a92;
+    text-decoration: none;
+}
+
+#resources a:hover {
+    text-decoration: underline;
+}
