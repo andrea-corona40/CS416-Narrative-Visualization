@@ -207,7 +207,7 @@ function updateScene() {
   d3.select("#filter-country").style("display", "none");
   }
 
-  year = scenes[currentScene].year;
+  displayYear = scenes[currentScene].year;
     
    drawChart();
 }
@@ -439,6 +439,8 @@ function drawChart() {
 
   const clip = g.append("clipPath").attr("id", "chartClip");
 
+  console.log(scenes[currentScene - 1]);
+
   clip
     .append("rect")
     .attr("width", x(new Date(`${scenes[currentScene - 1].year}-12-31`)) || 0)
@@ -561,7 +563,6 @@ function drawChart() {
 async function init() {
   await d3.csv("data/data.csv").then(function (data) {
       covidData = data;
-      console.log(covidData);
     countries = Array.from(new Set(covidData.map((d) => d.country))).sort(
       (a, b) => {
         if (a == "Mexico") return -1;
