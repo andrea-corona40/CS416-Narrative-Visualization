@@ -11,7 +11,7 @@
         "posX": 0,
         "posY": 200,
         "rectHeight": 100,
-        "rectWidth": 125
+        "rectWidth": 100
       },
       {
         "date": "2020-07-15",
@@ -19,7 +19,7 @@
         "posX": 0,
         "posY": 200,
         "rectHeight": 75,
-        "rectWidth": 100
+        "rectWidth": 75
       },
       {
         "date": "2020-12-24",
@@ -27,7 +27,7 @@
         "posX": 0,
         "posY": 200,
         "rectHeight": 100,
-        "rectWidth": 125
+        "rectWidth": 100
       }
     ]
   },
