@@ -10,7 +10,7 @@
         "text": "March 23 - National Healthy Distancing Campaign begins",
         "posX": 0,
         "posY": 150,
-        "rectHeight": 125,
+        "rectHeight": 120,
         "rectWidth": 100
       },
       {
@@ -18,7 +18,7 @@
         "text": "July 15 - First wave reaches its peak",
         "posX": 0,
         "posY": 200,
-        "rectHeight": 100,
+        "rectHeight": 80,
         "rectWidth": 100
       },
       {
@@ -26,7 +26,7 @@
         "text": "December 24 - National vaccination campaign begins amid rising cases",
         "posX": 0,
         "posY": 200,
-        "rectHeight": 125,
+        "rectHeight": 120,
         "rectWidth": 100
       }
     ]
@@ -49,7 +49,7 @@
         "text": "February 17 - One million vaccines doses administered",
         "posX": 20,
         "posY": 250,
-        "rectHeight": 110,
+        "rectHeight": 105,
         "rectWidth": 95
       },
       {
@@ -57,7 +57,7 @@
         "text": "May 2 - First confirmed Delta variant case",
         "posX": 0,
         "posY": 125,
-        "rectHeight": 110,
+        "rectHeight": 100,
         "rectWidth": 100
       },
       {
@@ -80,7 +80,7 @@
         "text": "January 20 - Omicron fourth wave",
         "posX": -100,
         "posY": 0,
-        "rectHeight": 75,
+        "rectHeight": 70,
         "rectWidth": 100
       },
 
@@ -89,7 +89,7 @@
         "text": "April 15 - 200 million vaccine doses administered",
         "posX": 0,
         "posY": 200,
-        "rectHeight": 75,
+        "rectHeight": 80,
         "rectWidth": 100
       },
 
