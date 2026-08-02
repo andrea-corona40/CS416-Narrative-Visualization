@@ -18,7 +18,7 @@
         "text": "July 15 - First wave reaches its peak",
         "posX": 0,
         "posY": 200,
-        "rectHeight": 80,
+        "rectHeight": 75,
         "rectWidth": 100
       },
       {
@@ -26,7 +26,7 @@
         "text": "December 24 - National vaccination campaign begins amid rising cases",
         "posX": 0,
         "posY": 200,
-        "rectHeight": 120,
+        "rectHeight": 115,
         "rectWidth": 100
       }
     ]
@@ -57,7 +57,7 @@
         "text": "May 2 - First confirmed Delta variant case",
         "posX": 0,
         "posY": 125,
-        "rectHeight": 100,
+        "rectHeight": 90,
         "rectWidth": 100
       },
       {
@@ -99,7 +99,7 @@
         "posX": 0,
         "posY": 150,
         "rectHeight": 100,
-        "rectWidth": 100
+        "rectWidth": 110
       }
     ]
   },
