@@ -9,7 +9,7 @@
         "date": "2020-03-23",
         "text": "National Healthy Distancing Campaign begins",
         "posX": 0,
-        "posY": 100,
+        "posY": 150,
         "rectHeight": 100,
         "rectWidth": 100
       },
@@ -47,7 +47,7 @@
       {
         "date": "2021-02-17",
         "text": "One million vaccines doses administered",
-        "posX": 10,
+        "posX": 120,
         "posY": 250,
         "rectHeight": 90,
         "rectWidth": 95
@@ -56,8 +56,8 @@
         "date": "2021-05-02",
         "text": "First confirmed Delta variant case",
         "posX": 0,
-        "posY": 150,
-        "rectHeight": 90,
+        "posY": 125,
+        "rectHeight": 85,
         "rectWidth": 100
       },
       {
@@ -65,7 +65,7 @@
         "text": "Third wave driven by the Delta variant",
         "posX": 0,
         "posY": 200,
-        "rectHeight": 90,
+        "rectHeight": 75,
         "rectWidth": 100
       }
     ]
@@ -89,7 +89,7 @@
         "text": "200 million vaccine doses administered",
         "posX": 0,
         "posY": 200,
-        "rectHeight": 90,
+        "rectHeight": 75,
         "rectWidth": 100
       },
 
@@ -113,7 +113,7 @@
         "text": "Sixth wave with milder disease severity",
         "posX": 0,
         "posY": 200,
-        "rectHeight": 90,
+        "rectHeight": 80,
         "rectWidth": 100
       },
       {
