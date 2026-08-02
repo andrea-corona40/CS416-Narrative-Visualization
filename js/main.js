@@ -8,126 +8,7 @@ let animateChart = true;
 let displayFilter = false;
 let displayTooltips = false;
 let displayYear = "2020";
-
-const scenes = [
-  {
-    title: "Scene 1",
-    text: "Mexico confirma primeros casos del país el 28 de febrero",
-    year: "2020",
-    annotations: [
-      {
-        date: new Date("2020-07-15"),
-        text: "Primera ola alcanza su primer pico",
-        posX: 0,
-        posY: 200,
-        rectHeight: 75,
-        rectWidth: 100,
-      },
-
-      {
-        date: new Date("2020-12-24"),
-        text: "Inicio de la vacunación en México",
-        posX: 0,
-        posY: 200,
-        rectHeight: 75,
-        rectWidth: 100,
-      },
-    ],
-  },
-  {
-    title: "Scene 2",
-    text: "This is the second scene.",
-    year: "2021",
-    annotations: [
-      {
-        date: new Date("2021-01-15"),
-        text: "Segunda Ola de COVID",
-        posX: 0,
-        posY: 250,
-        rectHeight: 50,
-        rectWidth: 100,
-      },
-      {
-        date: new Date("2021-02-21"),
-        text: "Comienza vacunación masiva en adultos mayores",
-        posX: 50,
-        posY: 100,
-        rectHeight: 100,
-        rectWidth: 90,
-      },
-      {
-        date: new Date("2021-08-15"),
-        text: "Tercera ola impulsada por la variante Delta",
-        posX: 0,
-        posY: 200,
-        rectHeight: 90,
-        rectWidth: 100,
-      },
-    ],
-  },
-  {
-    title: "Scene 3",
-    text: "This is the third scene.",
-    year: "2022",
-    annotations: [
-      {
-        date: new Date("2022-01-21"),
-        text: "Cuarta ola asociada a omnicron",
-        posX: -100,
-        posY: 0,
-        rectHeight: 70,
-        rectWidth: 100,
-      },
-
-      {
-        date: new Date("2022-04-15"),
-        text: "Over 200M de dosis aplicadas",
-        posX: 0,
-        posY: 200,
-        rectHeight: 70,
-        rectWidth: 90,
-      },
-
-      {
-        date: new Date("2022-07-15"),
-        text: "Quinta ola con variantes de Omicron",
-        posX: 0,
-        posY: 150,
-        rectHeight: 70,
-        rectWidth: 100,
-      },
-    ],
-  },
-  {
-    title: "Scene 4",
-    text: "This is the fourth scene.",
-    year: "2021",
-    annotations: [
-      {
-        date: new Date("2023-01-15"),
-        text: "Sexta ola de COVID",
-        posX: 0,
-        posY: 200,
-        rectHeight: 50,
-        rectWidth: 75,
-      },
-
-      {
-        date: new Date("2023-05-09"),
-        text: "Fin de la emergencia sanitaria por COVID-19",
-        posX: 0,
-        posY: 150,
-        rectHeight: 90,
-        rectWidth: 100,
-      },
-    ],
-  },
-
-  {
-    title: "Scene 5",
-    text: "This is the fifth scene.",
-  },
-];
+let scenes = [];
 
 function updateStoryText() {
   const title = d3.select("#scene-title");
@@ -320,7 +201,7 @@ function drawLine(svg, g, data, field, color, legendText, legendX, legendY, ySca
 function addSceneAnnotation(g, data, annotation, x, yLeft, width, height) {
   if (currentScene == scenes.length - 1) return;
 
-  const annotationDate = annotation.date;
+  const annotationDate = new Date(annotation.date);
 
   const bisectDate = d3.bisector((d) => d.date).left;
 
@@ -576,16 +457,19 @@ async function init() {
       },
     );
   });
-    const parseDate = d3.timeParse("%Y-%m-%d");
+   
+  const parseDate = d3.timeParse("%Y-%m-%d");
 
-   covidData.forEach((d) => {
+  scenes = await d3.json("data/scenes.json")
+
+  covidData.forEach((d) => {
     d.date = parseDate(d.date);
     d.cases = parseInt(d.new_cases_smoothed_per_million) || 0;
     d.deaths = parseInt(d.new_deaths_smoothed_per_million) || 0;
     d.vaccinations = parseInt(d.people_vaccinated_per_hundred) || 0;
    });
     
-    covidData = covidData.filter((d) => d.date <= maxDate);
+  covidData = covidData.filter((d) => d.date <= maxDate);
 
   createCountryDropdown();
   updateScene();
