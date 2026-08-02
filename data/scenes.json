@@ -1,7 +1,7 @@
 [
   {
-    "title": "The Arrival of COVID-19",
-    "text": "COVID-19 was first identified in Wuhan in December 2019, however, it did not reach Mexico until February 2020, when it quickly spread across the country. During the first months of the pandemic, public health restrictions were introduced as the number of reported cases increased steadily. The year concluded with the beginning of the national vaccination campaign.",
+    "title": "The Arrival of COVID-19 (2020)",
+    "text": "COVID-19 was first identified in Wuhan in December 2019. However, it did not reach Mexico until February 2020, when it quickly spread across the country. During the first months of the pandemic, public health restrictions were introduced as the number of reported cases increased steadily. The year concluded with the beginning of the national vaccination campaign.",
     "year": "2020",
     "annotations": [
       {
@@ -14,7 +14,7 @@
       },
       {
         "date": "2020-12-24",
-        "text": "Natural vaccination campaign begins as cases keep rising",
+        "text": "National vaccination campaign begins amid rising cases",
         "posX": 0,
         "posY": 200,
         "rectHeight": 75,
@@ -22,7 +22,7 @@
       },
       {
         "date": "2020-03-23",
-        "text": "National Healthy Distancing Campaign Begins",
+        "text": "National Healthy Distancing Campaign begins",
         "posX": 0,
         "posY": 200,
         "rectHeight": 75,
@@ -31,7 +31,7 @@
     ]
   },
   {
-    "title": "Successive Waves and Mass Vaccination",
+    "title": "Successive Waves and Mass Vaccination (2021)",
     "text": "Throughout 2021, Mexico experienced multiple waves of infections, including a large surge at the beginning of the year followed by another wave driven by the Delta variant. At the same time, the vaccination campaign expanded rapidly, becoming one of the country’s main public health strategies.",
     "year": "2021",
     "annotations": [
@@ -45,7 +45,7 @@
       },
       {
         "date": "2021-02-17",
-        "text": "Mexico reaches one million doses of vaccines administered",
+        "text": "One million vaccines doses administered",
         "posX": 50,
         "posY": 100,
         "rectHeight": 100,
@@ -53,7 +53,7 @@
       },
       {
         "date": "2021-05-02",
-        "text": "First positive sample of delta variant in the country",
+        "text": "First confirmed Delta variant case",
         "posX": 0,
         "posY": 200,
         "rectHeight": 90,
@@ -70,13 +70,13 @@
     ]
   },
   {
-    "title": "Scene 3",
-    "text": "This is the third scene.",
+    "title": "Omicron and the Transition to Recovery (2022)",
+    "text": "The highly transmissible Omicron variant produced the largest surge in reported cases at the beginning of the year. Despite additional waves, vaccination helped reduce severe outcomes, and the country gradually transitioned toward normal social and economic activities.",
     "year": "2022",
     "annotations": [
       {
         "date": "2022-01-21",
-        "text": "Cuarta ola asociada a omnicron",
+        "text": "Omicron fourth wave",
         "posX": -100,
         "posY": 0,
         "rectHeight": 70,
@@ -85,7 +85,7 @@
 
       {
         "date": "2022-04-15",
-        "text": "Over 200M de dosis aplicadas",
+        "text": "200 million vaccine doses administered",
         "posX": 0,
         "posY": 200,
         "rectHeight": 70,
@@ -94,7 +94,7 @@
 
       {
         "date": "2022-07-15",
-        "text": "Quinta ola con variantes de Omicron",
+        "text": "Fifth wave associated with Omicron subvariants",
         "posX": 0,
         "posY": 150,
         "rectHeight": 70,
@@ -103,22 +103,30 @@
     ]
   },
   {
-    "title": "Scene 4",
-    "text": "This is the fourth scene.",
-    "year": "2021",
+    "title": "The End of the Public Health Emergency (2023)",
+    "text": "By 2023, reported cases had declined considerably compared with previous years. Although COVID-19 continued to circulate, the pandemic entered a new stage marked by lower transmission and the end of the global public health emergency.",
+    "year": "2023",
     "annotations": [
       {
         "date": "2023-01-15",
-        "text": "Sexta ola de COVID",
+        "text": "Sixth wave with milder disease severity",
         "posX": 0,
         "posY": 200,
         "rectHeight": 50,
         "rectWidth": 75
       },
-
+      {
+        "date": "2023-05-05",
+        "text": "WHO ends COVID-19 Public Health Emergency",
+        "posX": 0,
+        "posY": 150,
+        "rectHeight": 90,
+        "rectWidth": 100
+      },
+      
       {
         "date": "2023-05-09",
-        "text": "Fin de la emergencia sanitaria por COVID-19",
+        "text": "Mexican government ends the COVID-19 health emergency",
         "posX": 0,
         "posY": 150,
         "rectHeight": 90,
@@ -127,7 +135,7 @@
     ]
   },
   {
-    "title": "Scene 5",
-    "text": "This is the fifth scene."
+    "title": "Explore COVID-19 Trends Across the Americas",
+    "text": "You can now compare Mexico's experience with other countries in the Americas. Select a country from the dropdown menu and hover over the chart to explore the data in greater detail."
   }
 ]
