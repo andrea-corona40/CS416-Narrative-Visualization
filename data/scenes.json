@@ -4,6 +4,15 @@
     "text": "COVID-19 was first identified in Wuhan in December 2019. However, it did not reach Mexico until February 2020, when it quickly spread across the country. During the first months of the pandemic, public health restrictions were introduced as the number of reported cases increased steadily. The year concluded with the beginning of the national vaccination campaign.",
     "year": "2020",
     "annotations": [
+      
+      {
+        "date": "2020-03-23",
+        "text": "National Healthy Distancing Campaign begins",
+        "posX": 0,
+        "posY": 200,
+        "rectHeight": 100,
+        "rectWidth": 125
+      },
       {
         "date": "2020-07-15",
         "text": "First wave reaches its peak",
@@ -17,16 +26,8 @@
         "text": "National vaccination campaign begins amid rising cases",
         "posX": 0,
         "posY": 200,
-        "rectHeight": 75,
-        "rectWidth": 100
-      },
-      {
-        "date": "2020-03-23",
-        "text": "National Healthy Distancing Campaign begins",
-        "posX": 0,
-        "posY": 200,
-        "rectHeight": 75,
-        "rectWidth": 100
+        "rectHeight": 100,
+        "rectWidth": 125
       }
     ]
   },
