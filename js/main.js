@@ -444,9 +444,11 @@ function drawChart() {
     ? new Date(`${scenes[currentScene - 1].year}-12-31`)
     : new Date("2020-01-01");
 
+  const previousWidth = Math.max(0, x(previousEnd));
+
   clip
     .append("rect")
-    .attr("width", x(previousEnd) || 0)
+    .attr("width", previousWidth)
     .attr("height", height);
 
   drawLine(
