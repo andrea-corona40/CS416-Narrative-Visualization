@@ -1,0 +1,125 @@
+[
+  {
+    "title": "The Arrival of COVID-19",
+    "text": "COVID-19 was first identified in Wuhan in December 2019, however, it did not reach Mexico until February 2020, when it quickly spread across the country. During the first months of the pandemic, public health restrictions were introduced as the number of reported cases increased steadily. The year concluded with the beginning of the national vaccination campaign.",
+    "year": "2020",
+    "annotations": [
+      {
+        "date": "2020-07-15",
+        "text": "First wave reaches its peak",
+        "posX": 0,
+        "posY": 200,
+        "rectHeight": 75,
+        "rectWidth": 100
+      },
+      {
+        "date": "2020-12-24",
+        "text": "Natural vaccination campaign begins as cases keep rising",
+        "posX": 0,
+        "posY": 200,
+        "rectHeight": 75,
+        "rectWidth": 100
+      },
+      {
+        "date": "2020-03-23",
+        "text": "National Healthy Distancing Campaign Begins",
+        "posX": 0,
+        "posY": 200,
+        "rectHeight": 75,
+        "rectWidth": 100
+      }
+    ]
+  },
+  {
+    "title": "Successive Waves and Mass Vaccination",
+    "text": "This is the second scene.",
+    "year": "2021",
+    "annotations": [
+      {
+        "date": "2021-01-15",
+        "text": "Segunda Ola de COVID",
+        "posX": 0,
+        "posY": 250,
+        "rectHeight": 50,
+        "rectWidth": 100
+      },
+      {
+        "date": "2021-02-21",
+        "text": "Comienza vacunación masiva en adultos mayores",
+        "posX": 50,
+        "posY": 100,
+        "rectHeight": 100,
+        "rectWidth": 90
+      },
+      {
+        "date": "2021-08-15",
+        "text": "Tercera ola impulsada por la variante Delta",
+        "posX": 0,
+        "posY": 200,
+        "rectHeight": 90,
+        "rectWidth": 100
+      }
+    ]
+  },
+  {
+    "title": "Scene 3",
+    "text": "This is the third scene.",
+    "year": "2022",
+    "annotations": [
+      {
+        "date": "2022-01-21",
+        "text": "Cuarta ola asociada a omnicron",
+        "posX": -100,
+        "posY": 0,
+        "rectHeight": 70,
+        "rectWidth": 100
+      },
+
+      {
+        "date": "2022-04-15",
+        "text": "Over 200M de dosis aplicadas",
+        "posX": 0,
+        "posY": 200,
+        "rectHeight": 70,
+        "rectWidth": 90
+      },
+
+      {
+        "date": "2022-07-15",
+        "text": "Quinta ola con variantes de Omicron",
+        "posX": 0,
+        "posY": 150,
+        "rectHeight": 70,
+        "rectWidth": 100
+      }
+    ]
+  },
+  {
+    "title": "Scene 4",
+    "text": "This is the fourth scene.",
+    "year": "2021",
+    "annotations": [
+      {
+        "date": "2023-01-15",
+        "text": "Sexta ola de COVID",
+        "posX": 0,
+        "posY": 200,
+        "rectHeight": 50,
+        "rectWidth": 75
+      },
+
+      {
+        "date": "2023-05-09",
+        "text": "Fin de la emergencia sanitaria por COVID-19",
+        "posX": 0,
+        "posY": 150,
+        "rectHeight": 90,
+        "rectWidth": 100
+      }
+    ]
+  },
+  {
+    "title": "Scene 5",
+    "text": "This is the fifth scene."
+  }
+]

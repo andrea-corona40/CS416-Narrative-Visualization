@@ -460,7 +460,7 @@ async function init() {
    
   const parseDate = d3.timeParse("%Y-%m-%d");
 
-  scenes = await d3.json("data/scenes.json")
+  scenes = await d3.json("data/scenes.json");
 
   covidData.forEach((d) => {
     d.date = parseDate(d.date);
